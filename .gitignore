@@ -1,0 +1,9 @@
+# Ignore dataset folder
+dataset/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
