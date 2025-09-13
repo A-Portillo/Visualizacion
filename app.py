@@ -1,4 +1,5 @@
 # app.py
+import os
 os.environ["STREAMLIT_DISABLE_FILE_WATCHER"] = "true"
 
 
@@ -7,7 +8,6 @@ import streamlit as st
 import numpy as np
 from pathlib import Path
 import altair as alt
-import os
 import traceback
 from FuncionesAuxiliares import select_top2_seeds_scale, select_topK_model_configs_scale, select_topN_models_scale, collect_filter_values
 from FuncionesAuxiliares import apply_filters, apply_top2_seeds, apply_topK_configs, apply_topN_models, get_metrics_filtered_and_metric, load_data_safe
