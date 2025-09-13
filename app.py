@@ -11,6 +11,7 @@ import altair as alt
 import traceback
 from FuncionesAuxiliares import select_top2_seeds_scale, select_topK_model_configs_scale, select_topN_models_scale, collect_filter_values
 from FuncionesAuxiliares import apply_filters, apply_top2_seeds, apply_topK_configs, apply_topN_models, get_metrics_filtered_and_metric, load_data_safe
+ROOT = Path(__file__).parent
 
 
 def _die(e):
@@ -21,7 +22,7 @@ def _die(e):
 try:
     # === run the data load and show shapes ===
     from FuncionesAuxiliares import load_data_safe  # or load_data_safe if that's what you're calling
-    dfs = load_data_safe()  # <-- your existing call
+    dfs = load_data_safe(ROOT)  # <-- your existing call
 
     # show quick diagnostics so we know what got loaded
     try:
