@@ -19,9 +19,30 @@ def _die(e):
     st.code("".join(traceback.format_exception(e)), language="python")
     st.stop()
 
+@st.cache_data
+def load_data_safe(root: Path):
+    datasets = {}
+    wanted = {
+        "metrics": "metrics.parquet",
+        "preds": "preds.parquet",
+        "fi": "fi.parquet",
+        "leaderboards": "leaderboards.parquet",
+    }
+    for key, fname in wanted.items():
+        p = root / fname
+        try:
+            if p.exists():
+                df = pd.read_parquet(p)
+                datasets[key] = df
+            else:
+                datasets[key] = pd.DataFrame()
+        except Exception as e:
+            # Show exact read error but keep app alive
+            datasets[key] = pd.DataFrame()
+            st.exception(e)
+    return datasets
 try:
     # === run the data load and show shapes ===
-    from FuncionesAuxiliares import load_data_safe  # or load_data_safe if that's what you're calling
     dfs = load_data_safe(ROOT)  # <-- your existing call
 
     # show quick diagnostics so we know what got loaded
