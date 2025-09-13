@@ -4,6 +4,7 @@ import streamlit as st
 import numpy as np
 from pathlib import Path
 import altair as alt
+import os
 
 from FuncionesAuxiliares import select_top2_seeds_scale, select_topK_model_configs_scale, select_topN_models_scale, collect_filter_values
 from FuncionesAuxiliares import apply_filters, apply_top2_seeds, apply_topK_configs, apply_topN_models, get_metrics_filtered_and_metric, load_data
@@ -20,6 +21,12 @@ METRIC_OPTIONS = [
 ]
 DEFAULT_METRIC = 'Roc_auc'
 
+
+st.title("🔍 Debugging startup")
+
+# Show current working dir and files available
+st.write("**Working directory:**", os.getcwd())
+st.write("**Files in repo root:**", [p.name for p in Path(".").iterdir()])
 
 dfs = load_data()
 
