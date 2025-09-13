@@ -1,4 +1,7 @@
 # app.py
+os.environ["STREAMLIT_DISABLE_FILE_WATCHER"] = "true"
+
+
 import pandas as pd
 import streamlit as st
 import numpy as np
