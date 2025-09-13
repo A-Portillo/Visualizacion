@@ -68,18 +68,29 @@ def select_topK_model_configs_scale(df, metric, k, gamma=0.01, eta=1, eps=1e-12)
     return stats, stats.head(k)['ModelName'].tolist()
 
 @st.cache_data
-def load_data():
+def load_data_safe(root: Path):
     datasets = {}
-    files = {"metrics": "metrics", "preds": "preds", "fi": "fi", "leaderboards":"leaderboards"}
-    for name, base in files.items():
-        pq_path  = Path(f"{base}.parquet")
-        if pq_path.exists():
-            df = pd.read_parquet(pq_path)
-        else:
-            st.error(f"No encontrado {pq_path}")
-            df = pd.DataFrame()
-        datasets[name] = df
+    wanted = {
+        "metrics": "metrics.parquet",
+        "preds": "preds.parquet",
+        "fi": "fi.parquet",
+        "leaderboards": "leaderboards.parquet",
+    }
+    for key, fname in wanted.items():
+        p = root / fname
+        try:
+            if p.exists():
+                df = pd.read_parquet(p)
+                datasets[key] = df
+            else:
+                datasets[key] = pd.DataFrame()
+        except Exception as e:
+            # Show exact read error but keep app alive
+            datasets[key] = pd.DataFrame()
+            st.exception(e)
     return datasets
+
+
 
 
 def collect_filter_values(dfs):
