@@ -21,7 +21,6 @@ METRIC_OPTIONS = [
 DEFAULT_METRIC = 'Roc_auc'
 
 
-load_data = st.cache_data(load_data)
 dfs = load_data()
 
 # ----------------------------

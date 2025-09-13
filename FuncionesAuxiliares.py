@@ -67,7 +67,7 @@ def select_topK_model_configs_scale(df, metric, k, gamma=0.01, eta=1, eps=1e-12)
 
     return stats, stats.head(k)['ModelName'].tolist()
 
-
+@st.cache_data
 def load_data():
     datasets = {}
     files = {"metrics": "metrics", "preds": "preds", "fi": "fi", "leaderboards":"leaderboards"}
