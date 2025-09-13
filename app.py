@@ -13,6 +13,29 @@ from FuncionesAuxiliares import select_top2_seeds_scale, select_topK_model_confi
 from FuncionesAuxiliares import apply_filters, apply_top2_seeds, apply_topK_configs, apply_topN_models, get_metrics_filtered_and_metric, load_data_safe
 
 
+def _die(e):
+    st.error("💥 The app crashed with an exception:")
+    st.code("".join(traceback.format_exception(e)), language="python")
+    st.stop()
+
+try:
+    # === run the data load and show shapes ===
+    from FuncionesAuxiliares import load_data_safe  # or load_data_safe if that's what you're calling
+    dfs = load_data_safe()  # <-- your existing call
+
+    # show quick diagnostics so we know what got loaded
+    try:
+        shapes = {k: ("empty" if v is None or getattr(v, "empty", True) else v.shape)
+                  for k, v in dfs.items()}
+        st.write("**Dataset shapes:**", shapes)
+    except Exception as e:
+        _die(e)
+
+    # ===== continue with your existing app code below =====
+
+except Exception as e:
+    _die(e)
+
 try:
     st.set_page_config(page_title="ML Logs — Dashboard", layout="wide")
     st.title("Visualización de datos - Machine learning")
